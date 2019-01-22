@@ -11,17 +11,18 @@ def setup():
     conn =  psycopg2.connect(user='postgres')
     queries = anosql.load_queries('postgres', '/conf/queries.sql')
     # Mailu user
-    queries.create_mailu_user(conn)
+    queries.create_usrpro_user(conn)
     queries.update_pw(conn, pw=os.environ.get("DB_PW"))
     # Healthcheck user
     queries.create_health_user(conn)
     queries.grant_health(conn)
     conn.commit()
     # create db cannot be atomic. But this script is the only active connection, this is kinda safe.
-    if not queries.check_db(conn):
-        conn.set_isolation_level(0)
-        queries.create_db(conn)
-        conn.set_isolation_level(1)
+    conn.set_isolation_level(0)
+    if not queries.check_db(conn, "usrpro"):
+        queries.create_usrpro_db(conn)
+    if not queries.check_db(conn, "cecas"):
+        queries.create_cecas_db(conn)
     conn.close()
 
 # Check if /data is empty

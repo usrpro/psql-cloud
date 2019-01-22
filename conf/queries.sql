@@ -1,15 +1,15 @@
--- name: create_mailu_user!
--- Create the mailu user if it does not exist.
+-- name: create_usrpro_user!
+-- Create the usrpro user if it does not exist.
 do $$
 begin
-    create user mailu;
+    create user usrpro;
     exception when others then
-    raise notice 'mailu user not created -- already exists';
+    raise notice 'usrpro user not created -- already exists';
 end
 $$;
 
 -- name: create_health_user!
--- Create the mailu user if it does not exist.
+-- Create the health user if it does not exist.
 do $$
 begin
     create user health;
@@ -26,17 +26,23 @@ grant connect
 
 -- name: update_pw!
 alter
-    user mailu
+    user usrpro
     password :pw;
 
 -- name: check_db
--- check if the mailu db exists
+-- check if a db exists
 select 1
     from pg_database
-    where datname = 'mailu';
+    where datname = %s;
 
--- name: create_db!
--- create the mailu db
+-- name: create_usrpro_db!
+-- create the usrpro db
 create
-    database mailu
-    owner mailu;
+    database usrpro
+    owner usrpro;
+
+-- name: create_cecas_db!
+-- create the cecas db
+create
+    database cecas
+    owner usrpro;

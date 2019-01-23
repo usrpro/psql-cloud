@@ -46,3 +46,9 @@ create
 create
     database cecas
     owner usrpro;
+
+-- name: create_neosib_db!
+-- create the neosib db
+create
+    database neosib
+    owner usrpro;

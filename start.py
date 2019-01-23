@@ -23,6 +23,8 @@ def setup():
         queries.create_usrpro_db(conn)
     if not queries.check_db(conn, "cecas"):
         queries.create_cecas_db(conn)
+    if not queries.check_db(conn,"neosib"):
+        queries.create_neosib_db(conn)
     conn.close()
 
 # Check if /data is empty
